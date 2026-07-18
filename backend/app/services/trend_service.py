@@ -4,7 +4,10 @@ from pytrends.request import TrendReq
 class TrendService:
 
     @staticmethod
-    def get_google_trend(keyword: str):
+    def get_trend(keyword: str):
+        """
+        Fetch Google Trend score for a keyword.
+        """
 
         pytrends = TrendReq(
             hl="en-US",
@@ -30,3 +33,10 @@ class TrendService:
             "keyword": keyword,
             "trend_score": score
         }
+
+    @staticmethod
+    def get_google_trend(keyword: str):
+        """
+        Backward compatibility.
+        """
+        return TrendService.get_trend(keyword)

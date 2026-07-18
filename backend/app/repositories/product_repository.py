@@ -38,6 +38,18 @@ class ProductRepository:
             .filter(Product.sku == sku)
             .first()
         )
+        
+    @staticmethod
+    def get_product_by_name(
+        db: Session,
+        product_name: str
+    ) -> Optional[Product]:
+
+        return (
+            db.query(Product)
+            .filter(Product.name.ilike(product_name))
+            .first()
+        )
 
     @staticmethod
     def update(
