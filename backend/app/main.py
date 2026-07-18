@@ -4,6 +4,7 @@ from app.api.product_api import router as product_router
 from app.database.database import Base, engine
 from app.api.trend_api import router as trend_router
 from app.models.sale import Sale
+from app.api.sale_routes import router as sale_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,6 +15,7 @@ app = FastAPI(
 )
 
 app.include_router(product_router)
+app.include_router(sale_router)
 app.include_router(trend_router)
 
 @app.get("/health")
