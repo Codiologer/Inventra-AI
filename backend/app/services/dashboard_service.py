@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
 from app.repositories.product_repository import ProductRepository
@@ -36,7 +37,7 @@ class DashboardService:
             "total_quantity_sold": total_quantity
 
         }
-        
+
     @staticmethod
     def get_alerts(db: Session):
 
@@ -71,7 +72,7 @@ class DashboardService:
                 })
 
         return alerts
-    
+
     @staticmethod
     def get_top_products(db: Session):
 
@@ -86,7 +87,9 @@ class DashboardService:
                 products[sale.product_name] = {
 
                     "product": sale.product_name,
+
                     "quantity_sold": 0,
+
                     "revenue": 0
 
                 }
@@ -95,7 +98,11 @@ class DashboardService:
 
             price = sale.sale_price or 0
 
-            products[sale.product_name]["revenue"] += (sale.quantity * price)
+            products[sale.product_name]["revenue"] += (
+
+                sale.quantity * price
+
+            )
 
         top_products = sorted(
 
@@ -108,3 +115,61 @@ class DashboardService:
         )
 
         return top_products
+
+    @staticmethod
+    def get_sales_analytics(
+
+        db: Session,
+
+        days: int = 7
+
+    ):
+
+        analytics_data = {}
+
+        today = datetime.now()
+
+        # Prepare last N days
+        for i in range(days - 1, -1, -1):
+
+            date_str = (
+
+                today - timedelta(days=i)
+
+            ).strftime("%Y-%m-%d")
+
+            analytics_data[date_str] = {
+
+                "date": date_str,
+
+                "sales": 0,
+
+                "revenue": 0
+
+            }
+
+        sales = SaleRepository.get_all(db)
+
+        for sale in sales:
+
+            if sale.sale_date:
+
+                sale_date = sale.sale_date.strftime("%Y-%m-%d")
+
+                if sale_date in analytics_data:
+
+                    price = sale.sale_price or 0
+
+                    analytics_data[sale_date]["sales"] += sale.quantity
+
+                    analytics_data[sale_date]["revenue"] += (
+
+                        sale.quantity * price
+
+                    )
+
+        return list(
+
+            analytics_data.values()
+
+        )
