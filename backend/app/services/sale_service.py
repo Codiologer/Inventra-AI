@@ -57,3 +57,46 @@ class SaleService:
         return {
             "message": "Sale deleted successfully"
         }
+        
+    @staticmethod
+    def get_sales_summary(
+        db: Session,
+        product_name: str
+    ):
+
+        sales = SaleRepository.get_sales_by_product(
+            db,
+            product_name
+        )
+
+        if not sales:
+
+            return {
+                "total_sales": 0,
+                "total_quantity": 0,
+                "daily_sales": 0
+            }
+
+        total_quantity = sum(
+            sale.quantity
+            for sale in sales
+        )
+
+        total_sales = sum(
+            sale.sale_price * sale.quantity
+            for sale in sales
+        )
+
+        daily_sales = round(
+            total_quantity / len(sales),
+            2
+        )
+
+        return {
+
+            "total_sales": total_sales,
+
+            "total_quantity": total_quantity,
+
+            "daily_sales": daily_sales
+        }

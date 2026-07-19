@@ -8,13 +8,12 @@ router = APIRouter(
 )
 
 
-@router.get("/health")
-
-def graph_health():
+@router.get("/analyze/{product_name}")
+def analyze_product(product_name: str):
 
     state = {
 
-        "product_name": "Rice",
+        "product_name": product_name,
 
         "product": {},
 
@@ -24,14 +23,22 @@ def graph_health():
 
         "forecast": {},
 
-        "recommendation": {}
+        "recommendation": {},
+
+        "ai_recommendation": ""
     }
 
     result = inventory_graph.invoke(state)
 
     return {
 
-        "message": "LangGraph Working",
+        "success": True,
 
         "graph_result": result
     }
+
+
+@router.get("/health")
+def graph_health():
+
+    return analyze_product("Rice")

@@ -66,13 +66,13 @@ class ForecastService:
 
             "risk_level": risk,
 
-            "recommended_order": recommended_order
+            "reorder_quantity": recommended_order
         }
         
     @staticmethod
     def get_average_daily_sales(db: Session, product_name: str):
 
-        sales = SaleRepository.get_all_sales(db)
+        sales = SaleRepository.get_all(db)
 
         total_quantity = 0
 

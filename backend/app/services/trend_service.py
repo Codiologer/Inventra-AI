@@ -29,8 +29,18 @@ class TrendService:
 
         score = int(data[keyword].iloc[-1])
 
+        if score >= 70:
+            trend = "Increasing"
+
+        elif score >= 40:
+            trend = "Stable"
+
+        else:
+            trend = "Decreasing"
+
         return {
             "keyword": keyword,
+            "trend": trend,
             "trend_score": score
         }
 

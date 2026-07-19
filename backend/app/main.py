@@ -6,6 +6,7 @@ from app.api.trend_api import router as trend_router
 from app.models.sale import Sale
 from app.api.sale_routes import router as sale_router
 from app.api import graph
+from app.api.ai import router as ai_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,6 +20,7 @@ app.include_router(product_router)
 app.include_router(sale_router)
 app.include_router(trend_router)
 app.include_router(graph.router)
+app.include_router(ai_router)
 
 @app.get("/health")
 def health():

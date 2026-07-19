@@ -44,10 +44,9 @@ class ProductRepository:
         db: Session,
         product_name: str
     ) -> Optional[Product]:
-
         return (
             db.query(Product)
-            .filter(Product.name.ilike(product_name))
+            .filter(Product.name.ilike(f"%{product_name}%"))
             .first()
         )
 

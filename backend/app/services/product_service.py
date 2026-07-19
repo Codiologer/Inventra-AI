@@ -106,3 +106,22 @@ class ProductService:
         return {
             "message": "Product deleted successfully."
         }
+        
+    @staticmethod
+    def get_product_by_name(
+        db: Session,
+        product_name: str
+    ):
+
+        product = ProductRepository.get_product_by_name(
+            db,
+            product_name
+        )
+
+        if not product:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Product not found."
+            )
+
+        return product

@@ -48,3 +48,15 @@ class SaleRepository:
 
         db.delete(db_sale)
         db.commit()
+        
+    @staticmethod
+    def get_sales_by_product(
+        db: Session,
+        product_name: str
+    ):
+        return (
+            db.query(Sale)
+            .filter(Sale.product_name.ilike(f"%{product_name}%"))
+            .order_by(Sale.sale_date.desc())
+            .all()
+    )
