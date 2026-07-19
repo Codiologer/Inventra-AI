@@ -128,3 +128,11 @@
     @apply font-sans;
   }
 }
+
+body{
+    background:#f1f5f9;
+}
+
+*{
+    box-sizing:border-box;
+}
