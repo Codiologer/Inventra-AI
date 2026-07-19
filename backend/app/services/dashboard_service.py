@@ -71,3 +71,40 @@ class DashboardService:
                 })
 
         return alerts
+    
+    @staticmethod
+    def get_top_products(db: Session):
+
+        sales = SaleRepository.get_all(db)
+
+        products = {}
+
+        for sale in sales:
+
+            if sale.product_name not in products:
+
+                products[sale.product_name] = {
+
+                    "product": sale.product_name,
+                    "quantity_sold": 0,
+                    "revenue": 0
+
+                }
+
+            products[sale.product_name]["quantity_sold"] += sale.quantity
+
+            price = sale.sale_price or 0
+
+            products[sale.product_name]["revenue"] += (sale.quantity * price)
+
+        top_products = sorted(
+
+            products.values(),
+
+            key=lambda x: x["quantity_sold"],
+
+            reverse=True
+
+        )
+
+        return top_products

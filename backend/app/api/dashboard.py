@@ -25,3 +25,12 @@ def dashboard_alerts(
 ):
 
     return DashboardService.get_alerts(db)
+
+@router.get("/top-products")
+def top_products(
+
+    db: Session = Depends(get_db)
+
+):
+
+    return DashboardService.get_top_products(db)

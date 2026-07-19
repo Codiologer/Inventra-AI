@@ -96,3 +96,10 @@ class SaleRepository:
             for sale in sales
 
         )
+        
+    @staticmethod
+    def get_all(db: Session):
+
+        return db.query(Sale).all()
+    
+    
