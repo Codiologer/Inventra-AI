@@ -8,6 +8,7 @@ from app.api.sale_routes import router as sale_router
 from app.api import graph
 from app.api.ai import router as ai_router
 from app.api.dashboard import router as dashboard_router
+from app.assistant.router import router as assistant_router
 
 
 
@@ -25,6 +26,7 @@ app.include_router(trend_router)
 app.include_router(graph.router)
 app.include_router(ai_router)
 app.include_router(dashboard_router)
+app.include_router(assistant_router)
 
 @app.get("/health")
 def health():
