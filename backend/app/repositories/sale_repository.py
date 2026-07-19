@@ -70,3 +70,29 @@ class SaleRepository:
             sale.sale_price * sale.quantity
             for sale in sales
         )
+        
+    @staticmethod
+    def get_total_revenue(db: Session):
+
+        sales = db.query(Sale).all()
+
+        return sum(
+
+            sale.quantity * sale.sale_price
+
+            for sale in sales
+
+        )
+        
+    @staticmethod
+    def get_total_quantity(db: Session):
+
+        sales = db.query(Sale).all()
+
+        return sum(
+
+            sale.quantity
+
+            for sale in sales
+
+        )

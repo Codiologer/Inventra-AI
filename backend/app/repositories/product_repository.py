@@ -78,24 +78,48 @@ class ProductRepository:
         
     @staticmethod
     def count_products(db: Session):
+
         return db.query(Product).count()
     
     @staticmethod
-    def low_stock_products(
+    def get_low_stock_products(
         db: Session
     ):
+
         return (
+
             db.query(Product)
-            .filter(Product.stock_quantity < 50)
+
+            .filter(Product.stock_quantity <= 50)
+
             .all()
+
         )
         
     @staticmethod
-    def critical_products(
+    def get_critical_products(
         db: Session
     ):
+
         return (
+
             db.query(Product)
-            .filter(Product.stock_quantity < 20)
+
+            .filter(Product.stock_quantity <= 20)
+
             .all()
+
+        )
+        
+    @staticmethod
+    def total_inventory(db: Session):
+
+        products = db.query(Product).all()
+
+        return sum(
+
+            product.stock_quantity
+
+            for product in products
+
         )
