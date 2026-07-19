@@ -36,3 +36,38 @@ class DashboardService:
             "total_quantity_sold": total_quantity
 
         }
+        
+    @staticmethod
+    def get_alerts(db: Session):
+
+        products = ProductRepository.get_all(db)
+
+        alerts = []
+
+        for product in products:
+
+            if product.stock_quantity <= 20:
+
+                alerts.append({
+
+                    "type": "CRITICAL",
+
+                    "product": product.name,
+
+                    "message": f"Only {product.stock_quantity} units left."
+
+                })
+
+            elif product.stock_quantity <= 50:
+
+                alerts.append({
+
+                    "type": "LOW STOCK",
+
+                    "product": product.name,
+
+                    "message": f"Current stock is {product.stock_quantity}."
+
+                })
+
+        return alerts

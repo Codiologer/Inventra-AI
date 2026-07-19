@@ -16,3 +16,12 @@ def get_dashboard_summary(
 ):
 
     return DashboardService.get_summary(db)
+
+@router.get("/alerts")
+def dashboard_alerts(
+
+    db: Session = Depends(get_db)
+
+):
+
+    return DashboardService.get_alerts(db)

@@ -123,3 +123,8 @@ class ProductRepository:
             for product in products
 
         )
+        
+    @staticmethod
+    def get_all(db: Session):
+
+        return db.query(Product).all()
