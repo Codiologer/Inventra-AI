@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import Providers from "@/providers/QueryProviders";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,8 +18,12 @@ export default function RootLayout({
 
       <body>
 
-        {children}
+        <Providers>
 
+          {children}
+
+        </Providers>
+        
       </body>
 
     </html>
