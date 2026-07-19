@@ -75,3 +75,27 @@ class ProductRepository:
 
         db.delete(db_product)
         db.commit()
+        
+    @staticmethod
+    def count_products(db: Session):
+        return db.query(Product).count()
+    
+    @staticmethod
+    def low_stock_products(
+        db: Session
+    ):
+        return (
+            db.query(Product)
+            .filter(Product.stock_quantity < 50)
+            .all()
+        )
+        
+    @staticmethod
+    def critical_products(
+        db: Session
+    ):
+        return (
+            db.query(Product)
+            .filter(Product.stock_quantity < 20)
+            .all()
+        )

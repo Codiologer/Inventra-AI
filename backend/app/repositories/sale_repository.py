@@ -60,3 +60,13 @@ class SaleRepository:
             .order_by(Sale.sale_date.desc())
             .all()
     )
+        
+    @staticmethod
+    def total_sales(db: Session):
+
+        sales = db.query(Sale).all()
+
+        return sum(
+            sale.sale_price * sale.quantity
+            for sale in sales
+        )
