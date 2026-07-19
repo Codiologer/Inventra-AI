@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.database.dependencies import get_db
 from app.assistant.tools import InventoryTools
+from app.assistant.service import AssistantService
+
 
 router = APIRouter(
     prefix="/assistant",
@@ -50,3 +52,38 @@ def sales(
 ):
 
     return InventoryTools.get_sales(db)
+
+@router.get("/ask")
+def ask_ai(
+
+    question: str,
+
+    db: Session = Depends(get_db)
+
+):
+
+    context = {
+
+        "summary": InventoryTools.get_inventory_summary(db),
+
+        "products": InventoryTools.get_products(db),
+
+        "sales": InventoryTools.get_sales(db)
+
+    }
+
+    answer = AssistantService.ask(
+
+        question,
+
+        context
+
+    )
+
+    return {
+
+        "question": question,
+
+        "answer": answer
+
+    }
